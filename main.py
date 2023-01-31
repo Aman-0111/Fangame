@@ -112,4 +112,3 @@ class Menu():
 if __name__ == "__main__":
     game = Menu()
     game.main_menu()
-     
