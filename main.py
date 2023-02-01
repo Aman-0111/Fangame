@@ -46,6 +46,41 @@ class Menu():
                     x_pos -= 275
                     y_pos += 150
 
+            RETURN_BUTTON = Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(300, 625), 
+                                text_input="RETURN", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
+
+            RETURN_BUTTON.changeColor(MOUSE_POS)
+            RETURN_BUTTON.update(self.SCREEN)
+
+            self.SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if RETURN_BUTTON.checkForInput(MOUSE_POS):
+                        return ""
+                    for button in buttons:
+                        if button.checkForInput(MOUSE_POS):
+                            print(button.text_input[-1])
+
+            pygame.display.update()
+
+    def options(self):
+
+        pygame.display.set_caption("Options")
+        
+        while True:
+
+            MOUSE_POS = pygame.mouse.get_pos()
+
+            self.SCREEN.fill("black")
+            self.SCREEN.blit(self.BG, (0,0))
+
+            MENU_TEXT = self.get_font(100).render("OPTIONS", True, "#1b368d")
+            MENU_RECT = MENU_TEXT.get_rect(center=(837, 35))
+
             self.SCREEN.blit(MENU_TEXT, MENU_RECT)
 
             for event in pygame.event.get():
@@ -55,16 +90,13 @@ class Menu():
 
             pygame.display.update()
 
-    def options(self):
-        pass
-
     def main_menu(self):
 
         clock = pygame.time.Clock() 
 
         mixer.init()
 
-        mixer.music.load('Assets/Music/Menu-Theme.mp3')
+        mixer.music.load('Assets/Music/1-05 The Adventure Continues - For Horizon Heights Act 1.mp3')
 
         mixer.music.set_volume(0.2)
 
