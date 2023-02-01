@@ -1,9 +1,49 @@
 import pygame
 import sys
+from tkinter import *
 from pygame import mixer
-from button import Button
+from button import Button as bt
 
 pygame.init()
+
+
+class Settings():
+    def __init__(self):
+        #Setting attributes that are required
+        self.screen1 = None
+        self.vol = 0.2
+
+    def Volume(self):
+        #Creates the initial Screen users see
+        #Sets size and displays the text and buttons
+        self.screen1 = Tk()
+        self.screen1.geometry("300x250")
+        self.screen1.title("Volume Control")
+        self.screen1.configure(bg = "#85c1ff")
+        Label(text = "Volume Control", bg = "#1b368d", width = 400, height = 3, font = ("Calibiri",18)).pack()
+        Label(text = "", bg = "#85c1ff").pack()
+        Button(text = "Increase Volume", height = "2", width = "30", command = self.vol_up).pack()
+        Label(text = "", bg = "#85c1ff").pack()
+        Button(text = "Decrease Volume",height = "2", width = "30", command = self.vol_down).pack()
+
+
+        self.screen1.mainloop()
+
+    def vol_up(self):
+        if self.vol >= 1:
+            pass
+        else:
+            self.vol += 0.1
+            game.set_vol(self.vol)
+
+    def vol_down(self):
+        if self.vol <= 0:
+            pass
+        else:
+            self.vol -= 0.1
+            game.set_vol(self.vol)
+
+    
 
 class Menu():
     def __init__(self) -> None:
@@ -13,6 +53,9 @@ class Menu():
 
     def get_font(self,size):
         return pygame.font.Font("Assets/Font/Sonic Advanced 2.ttf", size)
+
+    def set_vol(self,vol):
+        mixer.music.set_volume(vol)
 
     def world_select(self):
 
@@ -34,7 +77,7 @@ class Menu():
             x_pos = 700
 
             for x in range (8):
-                buttons.append(Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_M_btn.png"), pos=(x_pos, y_pos), 
+                buttons.append(bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_M_btn.png"), pos=(x_pos, y_pos), 
                                         text_input="W"+str(x+1), font=self.get_font(75), base_color="#d7fcd4", hovering_color="White"))
                 
                 buttons[x].changeColor(MOUSE_POS)
@@ -46,7 +89,7 @@ class Menu():
                     x_pos -= 275
                     y_pos += 150
 
-            RETURN_BUTTON = Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(300, 625), 
+            RETURN_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(300, 625), 
                                 text_input="RETURN", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
 
             RETURN_BUTTON.changeColor(MOUSE_POS)
@@ -81,12 +124,27 @@ class Menu():
             MENU_TEXT = self.get_font(100).render("OPTIONS", True, "#1b368d")
             MENU_RECT = MENU_TEXT.get_rect(center=(837, 35))
 
+            VOLUME_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(837, 175), 
+                                    text_input="VOLUME", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
+
+            RETURN_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(837, 525), 
+                                text_input="RETURN", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
+
+            for button in [VOLUME_BUTTON, RETURN_BUTTON]:
+                button.changeColor(MOUSE_POS)
+                button.update(self.SCREEN)
+
             self.SCREEN.blit(MENU_TEXT, MENU_RECT)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if VOLUME_BUTTON.checkForInput(MOUSE_POS):
+                        settings.Volume()
+                    if RETURN_BUTTON.checkForInput(MOUSE_POS):
+                        return ""
 
             pygame.display.update()
 
@@ -110,11 +168,11 @@ class Menu():
             MENU_TEXT = self.get_font(100).render("Flash Sonic Reborn", True, "#1b368d")
             MENU_RECT = MENU_TEXT.get_rect(center=(750, 35))
 
-            PLAY_BUTTON = Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 175), 
+            PLAY_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 175), 
                                     text_input="PLAY", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
-            OPTIONS_BUTTON = Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 350), 
+            OPTIONS_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 350), 
                                 text_input="OPTIONS", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
-            QUIT_BUTTON = Button(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 525), 
+            QUIT_BUTTON = bt(image=pygame.image.load("Assets/Buttons/PNG/CGB02-blue_L_btn.png"), pos=(775, 525), 
                                 text_input="QUIT", font=self.get_font(75), base_color="#d7fcd4", hovering_color="White")
 
             self.SCREEN.blit(MENU_TEXT, MENU_RECT)
@@ -140,7 +198,10 @@ class Menu():
 
             pygame.display.update()
 
+def placeholder():
+    pass
 
 if __name__ == "__main__":
     game = Menu()
+    settings = Settings()
     game.main_menu()
