@@ -3,6 +3,7 @@ import sys
 from tkinter import *
 from pygame import mixer
 from button import Button as bt
+from levels import World
 
 pygame.init()
 
@@ -48,7 +49,7 @@ class Menu():
     def __init__(self) -> None:
         self.SCREEN = pygame.display.set_mode((1131, 707))
         pygame.display.set_caption("Menu")
-        self.BG = pygame.image.load("Assets/Images/main_menu.jpg")
+        self.BG = pygame.image.load("Assets/Images/Backgrounds/main_menu.jpg")
 
     def get_font(self,size):
         return pygame.font.Font("Assets/Font/Sonic Advanced 2.ttf", size)
@@ -105,7 +106,7 @@ class Menu():
                         return ""
                     for button in buttons:
                         if button.checkForInput(MOUSE_POS):
-                            print(button.text_input[-1])
+                            world = World(button.text_input, self.SCREEN)
 
             pygame.display.update()
 
@@ -153,7 +154,7 @@ class Menu():
 
         mixer.init()
 
-        mixer.music.load('Assets/Music/1-05 The Adventure Continues - For Horizon Heights Act 1.mp3')
+        mixer.music.load('Assets/Music/Menu-Theme.mp3')
 
         mixer.music.set_volume(0.2)
 
