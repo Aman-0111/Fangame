@@ -6,7 +6,6 @@ from button import Button as bt
 
 pygame.init()
 
-
 class Settings():
     def __init__(self):
         #Setting attributes that are required
@@ -198,8 +197,6 @@ class Menu():
 
             pygame.display.update()
 
-def placeholder():
-    pass
 
 if __name__ == "__main__":
     game = Menu()
