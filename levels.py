@@ -6,15 +6,16 @@ import sys
 class World():
     def __init__(self, world_num, screen):
         self.world_num = world_num
-        self.BG = pygame.image.load("Assets/Images/Backgrounds/"+world_num+".jpg")
-        img = Image.open("Assets/Images/Backgrounds/"+world_num+".jpg")
-        self.width, self.height = img.size
+        self.BG = pygame.image.load("Assets/Images/"+world_num+"/background.png")
+        self.BG = pygame.transform.scale(self.BG, (1131, 707))
+        # img = Image.open("Assets/Images/Backgrounds/"+world_num+".jpg")
+        # self.width, self.height = img.size
         self.run_act1(screen)
 
     def run_act1(self,screen):
         
         pygame.display.set_caption("City Nightfall")
-        screen = pygame.display.set_mode((self.width - 500 ,self.height - 200))
+        screen = pygame.display.set_mode((1131, 707))
         
         p1 = Player([50,300])
 
