@@ -7,7 +7,8 @@ class Player():
         self.move_r = False
         self.move_l = False
         self.coord = coordinate
-        self.momentum = 0
+        self.momentum_x = 0
+        self.momentum_y = 0
         self.hitbox = pygame.Rect(self.coord[0],self.coord[1],70,100)
 
     def update(self):
@@ -45,19 +46,22 @@ class Player():
         #     self.coord[0] -= move
 
         if not (self.move_r or self.move_l):
-            self.momentum *= 0.9  # reduce momentum when not moving
-            self.momentum = max(0, self.momentum)  # ensure momentum is positive
+            self.momentum_x *= 0.9  # reduce momentum when not moving
+            self.momentum_x = max(0, self.momentum_x)  # ensure momentum is positive
 
         if self.move_r:
-            self.momentum += 0.01
-            self.momentum = min(self.momentum, 2)  # limit maximum momentum
-            move = 0.1 + self.momentum
+            self.momentum_x += 0.01
+            self.momentum_x = min(self.momentum_x, 2)  # limit maximum momentum
+            move = 0.1 + self.momentum_x
             self.coord[0] += move
         if self.move_l:
-            self.momentum -= 0.01
-            self.momentum = max(-2, self.momentum)  # limit maximum momentum
-            move = -0.1 - self.momentum
+            self.momentum_x -= 0.01
+            self.momentum_x = max(-2, self.momentum_x)  # limit maximum momentum
+            move = -0.1 - self.momentum_x
             self.coord[0] -= move
+
+        self.hitbox.x = self.coord[0]
+        self.hitbox.y = self.coord[1]
     
     def check(self, event):
 

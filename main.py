@@ -47,7 +47,7 @@ class Settings():
 
 class Menu():
     def __init__(self) -> None:
-        self.SCREEN = pygame.display.set_mode((1131, 707))
+        self.SCREEN = pygame.display.set_mode((1131, 700))
         pygame.display.set_caption("Menu")
         self.BG = pygame.image.load("Assets/Images/Backgrounds/main_menu.jpg")
 
